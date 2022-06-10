@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "vcraftextras",
+  "version": "${version}",
+
+  "name": "vcraftextras",
+  "description": "Serverside mod intended to run on the VCraftSMP Server",
+  "authors": [
+    "Asaphyx"
+  ],
+  "contact": {
+    "Asaphyx": "armate98@gmail.com"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/vcraftextras/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["ga.phyx.vcraftextras.Vcraftextras"]
+  },
+  "mixins": [
+    "vcraftextras.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  }
+}
