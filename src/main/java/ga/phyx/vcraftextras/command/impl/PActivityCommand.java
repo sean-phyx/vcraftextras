@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import ga.phyx.vcraftextras.Vcraftextras;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
@@ -35,14 +36,17 @@ public class PActivityCommand implements Command {
         }
 
         String targetName = ctx.getArgument("player", String.class);
-        final GameProfileRepository target = server.getGameProfileRepo();
 
-        if (target == null) {
+        if (!Vcraftextras.playerActivities.containsKey(targetName)) {
             throw NO_TARGET_EXCEPTION.create();
         }
-
-        //target.findProfilesByNames();
-        Text message = Text.literal("");
+        String lastTime = String.valueOf(Vcraftextras.playerActivities.get(targetName));
+        long seconds = (System.currentTimeMillis() - Long.valueOf(lastTime))/1000;
+        long minutes = seconds/60;
+        long hours = minutes/60;
+        long days = hours/24;
+        String time = days + " days " + hours % 24 + " hours " + minutes % 60 + " minutes " + seconds % 60 + " seconds";
+        Text message = Text.literal(targetName + " has not played in " + time);
         sender.sendMessage(message);
         return 1;
     }

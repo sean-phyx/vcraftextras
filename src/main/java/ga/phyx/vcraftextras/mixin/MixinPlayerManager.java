@@ -1,5 +1,8 @@
 package ga.phyx.vcraftextras.mixin;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.LongSerializationPolicy;
 import ga.phyx.vcraftextras.Vcraftextras;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
@@ -8,8 +11,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.include.com.google.gson.Gson;
-import org.spongepowered.include.com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 import java.io.Writer;
@@ -22,7 +23,10 @@ public class MixinPlayerManager {
         try {
             String filePath = "playeractivity.json";
             Writer writer = new FileWriter(filePath);
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder()
+                    .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+                    .setPrettyPrinting()
+                    .create();
             Long currentTime = System.currentTimeMillis();
             String name = player.getName().getString();
             Vcraftextras.playerActivities.put(name, currentTime);
