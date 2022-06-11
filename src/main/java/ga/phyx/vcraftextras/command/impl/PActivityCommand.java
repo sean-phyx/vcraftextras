@@ -1,6 +1,5 @@
 package ga.phyx.vcraftextras.command.impl;
 
-import com.mojang.authlib.GameProfileRepository;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -9,7 +8,6 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import ga.phyx.vcraftextras.Vcraftextras;
 import net.minecraft.command.CommandSource;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,8 +25,6 @@ public class PActivityCommand implements Command {
     private final SimpleCommandExceptionType NO_TARGET_EXCEPTION = new SimpleCommandExceptionType(Text.literal("No such player."));
 
     private int runPlayer(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        MinecraftServer server = ctx.getSource().getServer();
-
         final ServerPlayerEntity sender = ctx.getSource().getPlayer();
 
         if (sender == null) {
