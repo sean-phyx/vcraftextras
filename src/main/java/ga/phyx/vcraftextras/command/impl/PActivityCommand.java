@@ -59,6 +59,11 @@ public class PActivityCommand implements Command {
     @Override
     public void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(literal("pactivity")
+                .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(4))
+                        .executes(ctx -> {
+                            ctx.getSource().sendFeedback(Text.literal("You are not an operator"), false);
+                            return 1;
+                        })
                 .then(argument("player", string())
                 .suggests(this::suggestActivePlayers)
                 .executes(this::runPlayer)));
