@@ -26,7 +26,8 @@ public class Vcraftextras implements ModInitializer {
     public static HashMap<String, Long> playerActivities;
 
     private static final Command[] COMMANDS = {
-            new PActivityCommand()
+            new PActivityCommand(),
+            new PActivityListCommand()
     };
 
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {

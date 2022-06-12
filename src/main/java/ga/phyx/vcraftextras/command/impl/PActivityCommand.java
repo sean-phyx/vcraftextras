@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import ga.phyx.vcraftextras.Vcraftextras;
+import ga.phyx.vcraftextras.util.MilConvert;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -37,11 +38,7 @@ public class PActivityCommand implements Command {
             throw NO_TARGET_EXCEPTION.create();
         }
         String lastTime = String.valueOf(Vcraftextras.playerActivities.get(targetName));
-        long seconds = (System.currentTimeMillis() - Long.valueOf(lastTime))/1000;
-        long minutes = seconds/60;
-        long hours = minutes/60;
-        long days = hours/24;
-        String time = days + " days " + hours % 24 + " hours " + minutes % 60 + " minutes " + seconds % 60 + " seconds";
+        String time = MilConvert.convertDifference(lastTime);
         Text message = Text.literal(targetName + " has not played in " + time);
         sender.sendMessage(message);
         return 1;
@@ -61,7 +58,7 @@ public class PActivityCommand implements Command {
                             return 1;
                         })
                 .then(argument("player", string())
-                .suggests(this::suggestActivePlayers)
-                .executes(this::runPlayer)));
+                    .suggests(this::suggestActivePlayers)
+                    .executes(this::runPlayer)));
     }
 }
